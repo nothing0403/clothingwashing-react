@@ -1,9 +1,8 @@
-import { useState } from 'react'
-import './App.css'
+import { useState } from 'react';
 
-function App() {
+function Login() {
 
-  const[loginForm, setLoginForm] = useState({useraccount:'', userpassword:''})
+  const [loginForm, setLoginForm] = useState({useraccount:'', userpassword:''})
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
 
@@ -68,4 +67,4 @@ function App() {
   )
 }
 
-export default App
+export default Login;

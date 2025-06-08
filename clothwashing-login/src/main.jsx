@@ -1,10 +1,21 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './index.css'
-import App from './App.jsx'
+import ClothMenu from './pages/ClothMenu.jsx'
+import Deliver from './pages/Deliver.jsx'
+import Login from './pages/Login.jsx'
+import Submit from './pages/Submit.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <App />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<ClothMenu/>}/>
+        <Route path="/login" element={<Login/>}/>
+        <Route path="/login/submit" element={<Submit/>}/>
+        <Route path="/deliver" element={<Deliver/>}/>
+      </Routes>
+    </BrowserRouter>
   </StrictMode>,
 )

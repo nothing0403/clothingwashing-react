@@ -1,7 +1,6 @@
 import { useState } from 'react'
-import './App.css'
 
-function App() {
+function Submit() {
 
   const [submitForm, setSubmitForm] = useState({username:'', useraccount:'', userpassword:'', userphone:'', useraddress:''})
   const [error, setError] = useState('')
@@ -54,4 +53,4 @@ function App() {
   )
 }
 
-export default App
+export default Submit;
