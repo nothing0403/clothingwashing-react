@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import {useNavigate} from 'react-router-dom';
+import { usePageAction } from '../ActionContext/PageActionContext';
 
 function ClothMenu() {
 
   const [clothList, setClothList] = useState([]);
   const navigate = useNavigate();
+  const actionRef = usePageAction();
 
   // 取得 Cloth 資料
   useEffect(() => {
@@ -27,40 +29,51 @@ function ClothMenu() {
     );
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log(clothList)
-    const response = await fetch('http://localhost:8081/rest/update',{
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(clothList)
-    });
-    navigate('/deliver');
-  }
+  useEffect(() => {
+    if (actionRef) {
+      actionRef.current = async (e) => {
+        /*e.preventDefault();*/
+        console.log(clothList)
+        const response = await fetch('http://localhost:8081/rest/update',{
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(clothList)
+        });
+        navigate('/deliver');
+      };
+    }
+  }, [actionRef]);
 
   return (
     <div>
-      <h2>商品清單</h2>
-      {clothList.map(cloth => (
-        <div key={cloth.clothId} style={{ border: '1px solid #ccc', padding: '10px', marginBottom: '10px' }}>
-          <h3>{cloth.clothName}</h3>
-          <img src={cloth.clothImg} alt={cloth.clothName} style={{ width: '150px' }} />
-          <div>{cloth.clothDescription}</div>
-          <p>價格：${cloth.clothPrice}</p>
-          <p>尺寸：{cloth.clothSize}</p>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <button onClick={() => handleQuantityChange(cloth.clothId, -1)}>{'<'}</button>
-            <span style={{ margin: '0 10px' }}>{cloth.clothQuantity}</span>
-            <button onClick={() => handleQuantityChange(cloth.clothId, 1)}>{'>'}</button>
-          </div>
+      <div className="cloth">
+        <div className="cloth_container">
+          {clothList.map(cloth => (
+            <div className="cloth_card" key={cloth.clothId}>
+              <div className="cart_item">
+                <img src={cloth.clothImg} alt={cloth.clothName}/>
+                <div className="cart_description">
+                  <h3 className='description_name'>{cloth.clothName}</h3>
+                  <div>{cloth.clothDescription}</div>
+                </div>
+                <div className="cart_pricelist">
+                  <p>價格：${cloth.clothPrice}</p>
+                  <p>尺寸：{cloth.clothSize}</p>
+                </div>
+              </div>
+              <div className="count_price">
+                <button onClick={() => handleQuantityChange(cloth.clothId, -1)}>{'<'}</button>
+                <span style={{ margin: '0 10px' }}>{cloth.clothQuantity}</span>
+                <button onClick={() => handleQuantityChange(cloth.clothId, 1)}>{'>'}</button>
+              </div>
+            </div>
+          ))}
         </div>
-      ))}
-      
-      <button type="submit" onClick={handleSubmit}>送出</button>
-     
+      </div>
+      {/*<button type="submit" onClick={handleSubmit}>送出</button>*/ }
     </div>
   );
 };

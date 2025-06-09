@@ -6,15 +6,18 @@ import ClothMenu from './pages/ClothMenu.jsx'
 import Deliver from './pages/Deliver.jsx'
 import Login from './pages/Login.jsx'
 import Submit from './pages/Submit.jsx'
+import MainPage from './MainPage.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<ClothMenu/>}/>
+        <Route path="/" element={<MainPage/>}>
+          <Route index element={<ClothMenu/>}/>
+          <Route path="deliver" element={<Deliver/>}/>
+        </Route>
         <Route path="/login" element={<Login/>}/>
         <Route path="/login/submit" element={<Submit/>}/>
-        <Route path="/deliver" element={<Deliver/>}/>
       </Routes>
     </BrowserRouter>
   </StrictMode>,
