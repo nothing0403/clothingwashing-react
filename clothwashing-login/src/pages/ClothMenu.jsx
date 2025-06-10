@@ -42,6 +42,7 @@ function ClothMenu() {
             },
             body: JSON.stringify(clothList)
         });
+        // 導向寄件和收件人清單
         navigate('/deliver');
       };
     }
@@ -49,6 +50,16 @@ function ClothMenu() {
 
   return (
     <div>
+      <div className="kind_box">
+        <div className="kind_title">
+          <h5>洗衣類別</h5>
+        </div>
+        <div className="kind_button">
+          <button>人身著衣類</button>
+          <button>床寢類</button>
+          <button>其他類</button>
+        </div>
+      </div>
       <div className="cloth">
         <div className="cloth_container">
           {clothList.map(cloth => (

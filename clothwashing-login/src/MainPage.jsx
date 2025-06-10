@@ -53,37 +53,27 @@ function MainPage() {
           ))}
       </Swiper>
 
-      <div className="cart">
-        <PageActionContext.Provider value={actionRef}>
-          <div className="kind_box">
-            <div className="kind_title">
-              <h5>洗衣類別</h5>
-            </div>
-            <div className="kind_button">
-              <button>人身著衣類</button>
-              <button>床寢類</button>
-              <button>其他類</button>
-            </div>
-          </div>
+      <PageActionContext.Provider value={actionRef}>
+        <div className="cart">
           <div className='price'> 
             <div>
               <Outlet />
             </div>
             <div className="price_container">
-                <div className="price_title">
+              <div className="price_title">
                 <h6>訂購總覽</h6>
-                </div>
-                <div className="price_process">
+              </div>
+              <div className="price_process">
                 <label><input type="checkbox" />選擇送洗通路</label>
                 <label><input type="checkbox" />選擇送洗項目</label>
                 <label><input type="checkbox" />填寫送洗資訊</label>
-                </div>
-                <div className="price_total">總估價金額 0 元</div>
-                <button className="next" onClick={handleTrigger}><p>下一步</p></button>
+              </div>
+              <div className="price_total">總估價金額 0 元</div>
+              <button className="next" onClick={handleTrigger}><p>下一步</p></button>
             </div>
           </div>
-        </PageActionContext.Provider>
-      </div>
+        </div>
+      </PageActionContext.Provider>
 
       <footer className="footer_box">
         <nav className="footer_nav">
