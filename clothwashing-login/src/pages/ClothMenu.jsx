@@ -33,7 +33,6 @@ function ClothMenu() {
     if (actionRef) {
       actionRef.current = async (e) => {
         /*e.preventDefault();*/
-        console.log(clothList)
         const response = await fetch('http://localhost:8081/rest/update',{
             method: 'POST',
             credentials: 'include',
@@ -46,7 +45,7 @@ function ClothMenu() {
         navigate('/deliver');
       };
     }
-  }, [actionRef]);
+  }, [actionRef, clothList]);
 
   return (
     <div>

@@ -9,21 +9,19 @@ function Deliver() {
   const navigate = useNavigate();
   const actionRef = usePageAction();
 
-  const [sender, setSender] = useState({
+  const [senderDto, setSenderDto] = useState({
     senderName: "",
     senderPhone: "",
     senderAddress: "",
-    senderDate: ""
+    senderDate: null
   });
 
-  const [receiver, setReceiver] = useState({
+  const [receiverDto, setReceiverDto] = useState({
     receiverName: "",
     receiverPhone: "",
     receiverAddress: "",
-    receiverDate: ""
+    receiverDate: null
   });
-
-  const deliver = [receiver,sender];
 
   const senddate = new Date();
   const receivedate = new Date();
@@ -31,30 +29,32 @@ function Deliver() {
   receivedate.setDate(receivedate.getDate() + 5);
 
   const handleSenderChange = (e) => {
-    setSender({ ...sender, [e.target.name]: e.target.value });
+    setSenderDto({ ...senderDto, [e.target.name]: e.target.value });
   };
 
   const handleReceiverChange = (e) => {
-    setReceiver({ ...receiver, [e.target.name]: e.target.value });
+    setReceiverDto({ ...receiverDto, [e.target.name]: e.target.value });
   };
 
   useEffect(() => {
     if (actionRef) {
       actionRef.current = async (e) => {
         /*e.preventDefault();*/
+        console.log({receiverDto, senderDto})
         const response = await fetch('http://localhost:8081/rest/deliver',{
             method: 'POST',
             credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(deliver)
+            body: JSON.stringify({receiverDto, senderDto})
         });
         // 導向結帳清單
         navigate('/result');
       };
     }
-  }, [actionRef]);
+    // 讓useState監聽receiver、sender的更新
+  }, [actionRef, receiverDto, senderDto]);
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-2xl space-y-6">
@@ -66,41 +66,41 @@ function Deliver() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <input
             type="text"
-            name="senderName"
+            name='senderName'
             placeholder="姓名"
-            value={sender.senderName}
+            value={senderDto.senderName}
             onChange={handleSenderChange}
             className="border p-2 rounded"
             required
           />
           <input
             type="text"
-            name="senderPhone"
+            name='senderPhone'
             placeholder="電話"
-            value={sender.senderPhone}
+            value={senderDto.senderPhone}
             onChange={handleSenderChange}
             className="border p-2 rounded"
             required
           />
           <input
             type="text"
-            name="senderAddress"
+            name='senderAddress'
             placeholder="地址"
-            value={sender.senderAddress}
+            value={senderDto.senderAddress}
             onChange={handleSenderChange}
             className="border p-2 rounded md:col-span-2"
             required
           />
           <label>選擇日期：</label>
           <DatePicker
-            selected={sender.senderDate}
+            selected={senderDto.senderDate}
             onChange={(date) => {
               const formatted = date.toLocaleDateString('zh-TW', {
               year: 'numeric',
               month: '2-digit',
               day: '2-digit'
               });
-              handleSenderChange(formatted)}
+              setSenderDto({...senderDto, 'senderDate':formatted})}
             }
             minDate={senddate}
             dateFormat="yyyy/MM/dd"
@@ -117,7 +117,7 @@ function Deliver() {
             type="text"
             name="receiverName"
             placeholder="姓名"
-            value={receiver.receiverName}
+            value={receiverDto.receiverName}
             onChange={handleReceiverChange}
             className="border p-2 rounded"
             required
@@ -126,7 +126,7 @@ function Deliver() {
             type="text"
             name="receiverPhone"
             placeholder="電話"
-            value={receiver.receiverPhone}
+            value={receiverDto.receiverPhone}
             onChange={handleReceiverChange}
             className="border p-2 rounded"
             required
@@ -135,21 +135,21 @@ function Deliver() {
             type="text"
             name="receiverAddress"
             placeholder="地址"
-            value={receiver.receiverAddress}
+            value={receiverDto.receiverAddress}
             onChange={handleReceiverChange}
             className="border p-2 rounded md:col-span-2"
             required
           />
           <label>選擇日期：</label>
           <DatePicker
-            selected={receiver.receiverDate}
+            selected={receiverDto.receiverDate}
             onChange={(date) => {
               const formatted = date.toLocaleDateString('zh-TW', {
               year: 'numeric',
               month: '2-digit',
               day: '2-digit'
               });
-              handleReceiverChange(formatted)}
+              setReceiverDto({...receiverDto,'receiverDate':formatted})}
             }
             minDate={receivedate}
             dateFormat="yyyy/MM/dd"

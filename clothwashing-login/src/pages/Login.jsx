@@ -60,8 +60,8 @@ function Login() {
       <input type="text" name="useraccount" value={loginForm.useraccount} onChange={handleChange}/><br />
       <label>密碼: </label>
       <input type="text" name="userpassword" value={loginForm.userpassword} onChange={handleChange}/><br />
-      <button type="submit" onClick={handleLogin}>登入</button>
-      <button type="submit" onClick={handleLogout}>登出</button>
+      <button type="button" onClick={handleLogin}>登入</button>
+      <button type="button" onClick={handleLogout}>登出</button>
       <Link to="/login/submit">註冊</Link>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {success && <p style={{ color: 'green' }}>{success}</p>}
