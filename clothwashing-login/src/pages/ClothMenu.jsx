@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import {useNavigate} from 'react-router-dom';
 import { usePageAction } from '../ActionContext/PageActionContext';
+import '../style/clothmenu_style.css';
 
 function ClothMenu() {
 

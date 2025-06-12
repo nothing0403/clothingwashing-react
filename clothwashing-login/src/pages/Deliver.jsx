@@ -3,6 +3,7 @@ import {useNavigate} from 'react-router-dom';
 import { usePageAction } from '../ActionContext/PageActionContext';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import '../style/deliver_style.css'
 
 function Deliver() {
 
@@ -57,104 +58,121 @@ function Deliver() {
   }, [actionRef, receiverDto, senderDto]);
 
   return (
-    <div className="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-2xl space-y-6">
-      <h2 className="text-2xl font-bold mb-4">寄件人與收件人資訊</h2>
-      
-      {/* 寄件人欄位 */}
-      <div>
-        <h3 className="text-xl font-semibold mb-2">寄件人資訊</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <input
-            type="text"
-            name='senderName'
-            placeholder="姓名"
-            value={senderDto.senderName}
-            onChange={handleSenderChange}
-            className="border p-2 rounded"
-            required
-          />
-          <input
-            type="text"
-            name='senderPhone'
-            placeholder="電話"
-            value={senderDto.senderPhone}
-            onChange={handleSenderChange}
-            className="border p-2 rounded"
-            required
-          />
-          <input
-            type="text"
-            name='senderAddress'
-            placeholder="地址"
-            value={senderDto.senderAddress}
-            onChange={handleSenderChange}
-            className="border p-2 rounded md:col-span-2"
-            required
-          />
-          <label>選擇日期：</label>
-          <DatePicker
-            selected={senderDto.senderDate}
-            onChange={(date) => {
-              const formatted = date.toLocaleDateString('zh-TW', {
-              year: 'numeric',
-              month: '2-digit',
-              day: '2-digit'
-              });
-              setSenderDto({...senderDto, 'senderDate':formatted})}
-            }
-            minDate={senddate}
-            dateFormat="yyyy/MM/dd"
-            placeholderText="請選擇日期"
-          />
+    <div>
+      <div className="deliver_container">
+        <div className="sender_container">
+          <div className="sender_box">
+            <h3>寄件人資訊</h3>
+            <div>
+              姓名
+              <input
+                type="text"
+                name='senderName'
+                placeholder="請輸入姓名"
+                value={senderDto.senderName}
+                onChange={handleSenderChange}
+                required
+              />
+            </div>
+            <div>
+              電話
+              <input
+                type="text"
+                name='senderPhone'
+                placeholder="請輸入電話"
+                value={senderDto.senderPhone}
+                onChange={handleSenderChange}
+                required
+              />
+            </div>
+            <div>
+              地址
+              <input
+                type="text"
+                name='senderAddress'
+                placeholder="請輸入地址"
+                value={senderDto.senderAddress}
+                onChange={handleSenderChange}
+                required
+              />
+            </div>
+          </div>
+          <div className="sender_date">
+            <div>
+              選擇日期
+              <DatePicker
+                selected={senderDto.senderDate}
+                onChange={(date) => {
+                  const formatted = date.toLocaleDateString('zh-TW', {
+                  year: 'numeric',
+                  month: '2-digit',
+                  day: '2-digit'
+                  });
+                  setSenderDto({...senderDto, 'senderDate':formatted})}
+                }
+                minDate={senddate}
+                dateFormat="yyyy/MM/dd"
+                placeholderText="請選擇日期"
+              />
+            </div>
+          </div>
         </div>
-      </div>
-
-      {/* 收件人欄位 */}
-      <div>
-        <h3 className="text-xl font-semibold mb-2">收件人資訊</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <input
-            type="text"
-            name="receiverName"
-            placeholder="姓名"
-            value={receiverDto.receiverName}
-            onChange={handleReceiverChange}
-            className="border p-2 rounded"
-            required
-          />
-          <input
-            type="text"
-            name="receiverPhone"
-            placeholder="電話"
-            value={receiverDto.receiverPhone}
-            onChange={handleReceiverChange}
-            className="border p-2 rounded"
-            required
-          />
-          <input
-            type="text"
-            name="receiverAddress"
-            placeholder="地址"
-            value={receiverDto.receiverAddress}
-            onChange={handleReceiverChange}
-            className="border p-2 rounded md:col-span-2"
-            required
-          />
-          <label>選擇日期：</label>
-          <DatePicker
-            selected={receiverDto.receiverDate}
-            onChange={(date) => {
-              const formatted = date.toLocaleDateString('zh-TW', {
-              year: 'numeric',
-              month: '2-digit',
-              day: '2-digit'
-              });
-              setReceiverDto({...receiverDto,'receiverDate':formatted})}
-            }
-            minDate={receivedate}
-            dateFormat="yyyy/MM/dd"
-            placeholderText="請選擇日期"
-          />
+        <div className="receiver_container">
+          <div className="receiver_box">
+              <h3>收件人資訊</h3>
+              <div>
+                姓名
+                <input
+                  type="text"
+                  name="receiverName"
+                  placeholder="請輸入姓名"
+                  value={receiverDto.receiverName}
+                  onChange={handleReceiverChange}
+                  required
+                />
+              </div>
+              <div> 
+                電話
+                <input
+                  type="text"
+                  name="receiverPhone"
+                  placeholder="請輸入電話"
+                  value={receiverDto.receiverPhone}
+                  onChange={handleReceiverChange}
+                  required
+                />
+              </div>
+              <div>
+                地址
+                <input
+                  type="text"
+                  name="receiverAddress"
+                  placeholder="請輸入地址"
+                  value={receiverDto.receiverAddress}
+                  onChange={handleReceiverChange}
+                  required
+                />
+              </div>
+          </div>
+          <div className="receiver_date">
+            <div>
+              選擇日期
+              <DatePicker
+                selected={receiverDto.receiverDate}
+                onChange={(date) => {
+                  const formatted = date.toLocaleDateString('zh-TW', {
+                  year: 'numeric',
+                  month: '2-digit',
+                  day: '2-digit'
+                  });
+                  setReceiverDto({...receiverDto,'receiverDate':formatted})}
+                }
+                minDate={receivedate}
+                dateFormat="yyyy/MM/dd"
+                placeholderText="請選擇日期"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>

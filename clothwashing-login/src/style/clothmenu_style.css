@@ -1,0 +1,96 @@
+.kind_box{
+    box-sizing: border-box;
+    width: 100%;
+    height: auto;
+    padding: 50px 25px 25px 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.kind_title{
+    margin-bottom: 10px;
+}
+
+h5{
+    font-size: 25px !important;
+}
+
+.kind_button button{
+    width: auto;
+    height: 100%;
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+.cloth{
+    display: flex;
+    /*padding: 0 20px;*/
+    box-sizing: border-box;
+    justify-content: space-between;
+}
+
+.cloth_container{
+    width: 900px;
+    box-sizing: border-box;
+    padding: 30px;
+    border-radius: 10px;
+    background-color: white;
+    /*margin-bottom: 70px;*/
+}
+
+.cloth_card{
+    display: flex;
+    gap: 20px;
+}
+
+.cart_item{
+    width: 600px;
+    height: 100px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin-left: 20px;
+}
+
+.cart_item img{
+    width: 100px;
+    height: auto;
+    /*object-fit: cover;*/
+    display: block;
+}
+
+.cart_description{
+    width: 300px;
+    height: 100%;
+    margin-left: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+}
+
+.description_name{
+    font-weight: 900;
+    font-size: 20px;
+}
+
+.cart_pricelist{
+    height: auto;
+    box-sizing: border-box;
+    margin-left: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.count_price{
+    width: 100px;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    box-sizing: border-box;
+    margin-left: 50px;
+}
