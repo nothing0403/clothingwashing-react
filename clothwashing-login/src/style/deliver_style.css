@@ -45,18 +45,6 @@
     padding-bottom: 10px;
 }
 
-.sender_date{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.sender_date input{
-    width: 600px;
-    height: 30px;
-    margin-left: 10px;
-}
-
 .receiver_container{
     box-sizing: border-box;
     display: flex;
@@ -73,6 +61,7 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+    margin-bottom: 15px;
 }
 
 .receiver_box input{
@@ -87,14 +76,28 @@
     padding-bottom: 10px;
 }
 
-.receiver_date{
+.date_box{
+    font-size: 15px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 20px;
+    margin-top: 15px;
 }
 
-.receiver_date input{
-    width: 600px;
+.selectedDate{
+    width: 130px;
     height: 30px;
     margin-left: 10px;
+    padding-left: 15px;
+    font-size: 15px;
+}
+
+.receive_date{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.send_date{
+    color:rgb(0, 153, 255);
 }

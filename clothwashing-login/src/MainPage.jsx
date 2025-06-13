@@ -53,7 +53,7 @@ function MainPage() {
           ))}
       </Swiper>
 
-      <PageActionContext.Provider value={actionRef}>
+      <PageActionContext.Provider  value={actionRef}>
         <div className="cart">
           <div className='price'> 
             <div>
