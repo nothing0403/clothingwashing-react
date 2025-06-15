@@ -1,0 +1,103 @@
+.deliver_container{
+    width: 900px;
+    height: 760px;
+    box-sizing: border-box;
+    /*padding: 30px;*/
+    padding: 60px;
+    border-radius: 10px;
+    background-color: white;
+    margin-top: 156.6px;
+    /*margin-bottom: 70px;*/
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    gap: 50px;
+}
+
+.sender_container{
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    font-weight: 900;
+}
+
+.sender_container input{
+    padding-left: 10px;
+}
+
+.sender_box{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sender_box input{
+    width: 600px;
+    height: 30px;
+    margin-left: 10px;
+}
+
+.sender_box h3{
+    font-size: 22px;
+    font-weight: 900;
+    padding-bottom: 10px;
+}
+
+.receiver_container{
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    font-weight: 900;
+}
+
+.receiver_container input{
+    padding-left: 10px;
+}
+
+.receiver_box{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.receiver_box input{
+    width: 600px;
+    height: 30px;
+    margin-left: 10px;
+}
+
+.receiver_box h3{
+    font-size: 22px;
+    font-weight: 900;
+    padding-bottom: 10px;
+}
+
+.date_box{
+    font-size: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 15px;
+}
+
+.selectedDate{
+    width: 130px;
+    height: 30px;
+    margin-left: 10px;
+    padding-left: 15px;
+    font-size: 15px;
+}
+
+.receive_date{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.send_date{
+    color:rgb(0, 153, 255);
+}
