@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import {useNavigate} from 'react-router-dom';
 import { usePageAction } from '../ActionContext/PageActionContext';
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../style/deliver_style.css'
 
@@ -15,7 +14,8 @@ function Deliver() {
     senderPhone: "",
     senderAddress: "",
     senderDate: null,
-    senderTimePeriod: ""
+    senderTimePeriod: "",
+    senderPayment: ""
   });
 
   const [receiverDto, setReceiverDto] = useState({
@@ -146,6 +146,11 @@ function Deliver() {
                 <input type="radio" name="senderTimePeriod" value="morning" onChange={handleSenderChange}/>上午9點至上午12點
                 <input type="radio" name="senderTimePeriod" value="afternoon" onChange={handleSenderChange}/>上午12點至下午3點
                 <input type="radio" name="senderTimePeriod" value="evening" onChange={handleSenderChange}/>下午3點至下午6點
+              </div>
+              <div>
+                付款方式
+                <input type="radio" name="senderPayment" value="credit_card" onChange={handleSenderChange}/>信用卡
+                <input type="radio" name="senderPayment" value="pay_cash" onChange={handleSenderChange}/>付現
               </div>
             </div>
           </div>

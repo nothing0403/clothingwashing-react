@@ -7,12 +7,19 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { Outlet } from 'react-router-dom';
 import { PageActionContext } from './ActionContext/PageActionContext';
-import { useRef } from 'react';
+import { PriceContext } from './ActionContext/PriceContext';
+import { QuantityContext } from './ActionContext/QuantityContext'; 
+import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
+
 
 function MainPage() {
 
   const actionRef = useRef(null);
+
+  const [totalPrice, setTotalPrice] = useState(0);
+
+  const [totalQuantity, setTotalQuantity] = useState(0);
 
   const handleTrigger = () => {
     if (actionRef.current) {
@@ -23,7 +30,7 @@ function MainPage() {
   return (
     <>
       <div className="container">
-        <div className="title">Hello</div>
+        <div className="title"><img src="./Logo.png"/></div>
         <nav className="nav_bar">
           <div className="menu">洗衣優惠</div>
           <div className="menu">洗衣價目</div>
@@ -54,25 +61,32 @@ function MainPage() {
       </Swiper>
 
       <PageActionContext.Provider  value={actionRef}>
-        <div className="cart">
-          <div className='price'> 
-            <div>
-              <Outlet />
-            </div>
-            <div className="price_container">
-              <div className="price_title">
-                <h6>訂購總覽</h6>
+        <PriceContext.Provider value={{ totalPrice, setTotalPrice }}>
+          <QuantityContext.Provider value={{ totalQuantity, setTotalQuantity }}>
+            <div className="cart">
+              <div className='price'> 
+                <div>
+                  <Outlet />
+                </div>
+                <div className="price_container">
+                  <div className="price_title">
+                    <h6>訂購總覽</h6>
+                  </div>
+                  <div className="price_process">
+                    <label><input type="checkbox" />選擇送洗通路</label>
+                    <div className='price_items'>
+                      <label><input type="checkbox" />選擇送洗項目</label>
+                      <p>加洗 {totalQuantity} 件</p>
+                    </div>
+                    <label><input type="checkbox" />填寫送洗資訊</label>
+                  </div>
+                  <div className="price_total">總估價金額 {totalPrice} 元</div>
+                  <button className="next" onClick={handleTrigger}><p>下一步</p></button>
+                </div>
               </div>
-              <div className="price_process">
-                <label><input type="checkbox" />選擇送洗通路</label>
-                <label><input type="checkbox" />選擇送洗項目</label>
-                <label><input type="checkbox" />填寫送洗資訊</label>
-              </div>
-              <div className="price_total">總估價金額 0 元</div>
-              <button className="next" onClick={handleTrigger}><p>下一步</p></button>
             </div>
-          </div>
-        </div>
+          </QuantityContext.Provider>
+        </PriceContext.Provider>
       </PageActionContext.Provider>
 
       <footer className="footer_box">

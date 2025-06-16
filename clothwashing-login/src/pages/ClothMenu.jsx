@@ -1,13 +1,21 @@
-import { useEffect, useState } from 'react';
-import {useNavigate} from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { usePageAction } from '../ActionContext/PageActionContext';
+import { PriceContext } from '../ActionContext/PriceContext';
+import { QuantityContext } from '../ActionContext/QuantityContext';
 import '../style/clothmenu_style.css';
 
 function ClothMenu() {
 
   const [clothList, setClothList] = useState([]);
+  const { setTotalPrice } = useContext(PriceContext);
+  const { setTotalQuantity } = useContext(QuantityContext);
   const navigate = useNavigate();
   const actionRef = usePageAction();
+
+  const [buttonKey, setButtonKey] = useState(0);
+
+  const perClothList = clothList.slice(buttonKey*7, (buttonKey+1)*7);
 
   // 取得 Cloth 資料
   useEffect(() => {
@@ -19,16 +27,12 @@ function ClothMenu() {
       .catch(error => console.error('Fetch error:', error));
   }, []);
 
-  // 增減數量處理
-  const handleQuantityChange = (id, delta) => {
-    setClothList(prevList =>
-      prevList.map(cloth =>
-        cloth.clothId === id
-          ? { ...cloth, clothQuantity: Math.max(0, cloth.clothQuantity + delta) }
-          : cloth
-      )
-    );
-  };
+  useEffect(() => {
+    const total = clothList.map(cloth => cloth.clothQuantity*cloth.clothPrice).reduce((sum, current) => sum + current, 0);
+    setTotalPrice(total);
+    const quantity = clothList.map(cloth => cloth.clothQuantity).reduce((sum, current) => sum + current, 0);
+    setTotalQuantity(quantity);
+  }, [clothList])
 
   useEffect(() => {
     if (actionRef) {
@@ -46,8 +50,20 @@ function ClothMenu() {
         navigate('/deliver');
       };
     }
-  }, [actionRef, clothList]);
+  }, [actionRef]);
 
+  // 增減數量處理
+  const handleQuantityChange = (id, delta) => {
+    setClothList(prevList =>
+      prevList.map(cloth =>
+        cloth.clothId === id
+          ? { ...cloth, clothQuantity: Math.max(0, cloth.clothQuantity + delta) }
+          : cloth
+      )
+    );
+  };
+
+  
   return (
     <div>
       <div className="kind_box">
@@ -55,14 +71,14 @@ function ClothMenu() {
           <h5>洗衣類別</h5>
         </div>
         <div className="kind_button">
-          <button>人身著衣類</button>
-          <button>床寢類</button>
-          <button>其他類</button>
+          <button onClick={()=>setButtonKey(0)}>人身著衣類</button>
+          <button onClick={()=>setButtonKey(1)}>床寢類</button>
+          <button onClick={()=>setButtonKey(2)}>其他類</button>
         </div>
       </div>
       <div className="cloth">
         <div className="cloth_container">
-          {clothList.map(cloth => (
+          {perClothList.map(cloth => (
             <div className="cloth_card" key={cloth.clothId}>
               <div className="cart_item">
                 <img src={cloth.clothImg} alt={cloth.clothName}/>
