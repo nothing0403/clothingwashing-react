@@ -7,7 +7,7 @@ import Deliver from './pages/Deliver.jsx'
 import Login from './pages/Login.jsx'
 import Submit from './pages/Submit.jsx'
 import MainPage from './MainPage.jsx'
-import Result from './pages/Result.jsx';
+import Cart from './pages/Cart.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -16,7 +16,7 @@ createRoot(document.getElementById('root')).render(
         <Route path="/" element={<MainPage/>}>
           <Route index element={<ClothMenu/>}/>
           <Route path="deliver" element={<Deliver/>}/>
-          <Route path="result" element={<Result/>}/>
+          <Route path="cart" element={<Cart/>}/>
         </Route>
         <Route path="/login" element={<Login/>}/>
         <Route path="/login/submit" element={<Submit/>}/>

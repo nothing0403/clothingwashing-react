@@ -38,7 +38,7 @@ function MainPage() {
           <div className="menu">關於我們</div>
         </nav>
         <div className="customer_menu">
-          <Link className="sign_in" to="/login"></Link>
+          <Link className="sign_in" to="/login">會員登入</Link>
           <div className="cloth_menu">洗衣選單</div>
         </div>
       </div>

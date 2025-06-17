@@ -84,7 +84,7 @@ function Deliver() {
             body: JSON.stringify({receiverDto, senderDto})
         });
         // 導向結帳清單
-        navigate('/result');
+        navigate('/cart');
       };
     }
     // 讓useState監聽receiver、sender的更新

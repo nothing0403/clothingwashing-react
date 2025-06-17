@@ -75,11 +75,12 @@ html, body, #root {
     align-items: center;
     font-size: 17.5px;  
     position: relative;
+    cursor: pointer;
+    color: black;
 }
 
 .sign_in::before{
-    content:'會員登入';
-    color: black;
+    content: '';
 }
 
 .sign_in::after{
@@ -96,7 +97,6 @@ html, body, #root {
 
 .sign_in:hover::after{
     width: 100%;
-    color: black;
 }
 
 .swiper{

@@ -13,9 +13,9 @@ function ClothMenu() {
   const navigate = useNavigate();
   const actionRef = usePageAction();
 
-  const [buttonKey, setButtonKey] = useState(0);
+  // const [buttonKey, setButtonKey] = useState(0);
 
-  const perClothList = clothList.slice(buttonKey*7, (buttonKey+1)*7);
+  // const perClothList = clothList.slice(buttonKey*7, (buttonKey+1)*7);
 
   // 取得 Cloth 資料
   useEffect(() => {
@@ -40,6 +40,7 @@ function ClothMenu() {
         /*e.preventDefault();*/
         const response = await fetch('http://localhost:8081/rest/update',{
             method: 'POST',
+            // 傳入 session
             credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
@@ -50,7 +51,7 @@ function ClothMenu() {
         navigate('/deliver');
       };
     }
-  }, [actionRef]);
+  }, [actionRef, clothList]);
 
   // 增減數量處理
   const handleQuantityChange = (id, delta) => {
@@ -78,7 +79,7 @@ function ClothMenu() {
       </div>
       <div className="cloth">
         <div className="cloth_container">
-          {perClothList.map(cloth => (
+          {clothList.map(cloth => (
             <div className="cloth_card" key={cloth.clothId}>
               <div className="cart_item">
                 <img src={cloth.clothImg} alt={cloth.clothName}/>

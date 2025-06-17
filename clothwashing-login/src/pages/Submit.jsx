@@ -1,10 +1,13 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 function Submit() {
 
   const [submitForm, setSubmitForm] = useState({username:'', useraccount:'', userpassword:'', userphone:'', useraddress:''})
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const {name, value} = e.target;
@@ -22,11 +25,22 @@ function Submit() {
       });
 
       if (response.ok) {
-        setSuccess('註冊成功！');
-        setError('');
+        Swal.fire({
+        title: '註冊成功！',
+        text: '歡迎回來！',
+        icon: 'success',
+        confirmButtonText: '前往登入畫面'
+      }).then(() => {
+        // 使用者按下確認後，導向主畫面
+        navigate('/login'); // 或你想去的路由
+      });
       } else {
-        const result = await response.json();
-        setError(result.message || '註冊失敗');
+        Swal.fire({
+          title: '註冊失敗',
+          text: '請確認資料是否輸入完成',
+          icon: 'error',
+          confirmButtonText: '確定'
+        });
       }
     } catch (err) {
       setError('無法連線到伺服器');
