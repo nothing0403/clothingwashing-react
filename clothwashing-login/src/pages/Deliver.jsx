@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import {useNavigate} from 'react-router-dom';
 import { usePageAction } from '../ActionContext/PageActionContext';
+import { Link } from 'react-router-dom';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../style/deliver_style.css'
 
@@ -9,21 +10,9 @@ function Deliver() {
   const navigate = useNavigate();
   const actionRef = usePageAction();
 
-  const [senderDto, setSenderDto] = useState({
-    senderName: "",
-    senderPhone: "",
-    senderAddress: "",
-    senderDate: null,
-    senderTimePeriod: "",
-    senderPayment: ""
-  });
+  const [senderDto, setSenderDto] = useState({});
 
-  const [receiverDto, setReceiverDto] = useState({
-    receiverName: "",
-    receiverPhone: "",
-    receiverAddress: "",
-    receiverDate: null
-  });
+  const [receiverDto, setReceiverDto] = useState({});
 
   // const senddate = new Date();
   const [senddate, setSendDate] = useState([]);
@@ -62,6 +51,29 @@ function Deliver() {
   }, [])
 
   useEffect(() => {
+      fetch('http://localhost:8081/rest/deliver',{credentials: 'include'})
+        .then(res => res.json())
+        .then(data => {
+          const deliver = data.data; 
+          setSenderDto(deliver.senderDto || {
+            senderName: "",
+            senderPhone: "",
+            senderAddress: "",
+            senderDate: null,
+            senderTimePeriod: "",
+            senderPayment: ""
+          });
+          setReceiverDto(deliver.receiverDto || {
+            receiverName: "",
+            receiverPhone: "",
+            receiverAddress: "",
+            receiverDate: null
+          }); // 後端回傳 ApiResponse<List<ClothDto>>
+        })
+        .catch(error => console.error('Fetch error:', error));
+    }, []);
+
+  useEffect(() => {
     // 拿到Ref物件
     if (actionRef) {
       actionRef.current = async (e) => {
@@ -75,7 +87,7 @@ function Deliver() {
         }
         /*e.preventDefault();*/
         console.log({receiverDto, senderDto})
-        const response = await fetch('http://localhost:8081/rest/deliver',{
+        const response = await fetch('http://localhost:8081/rest/update/deliver',{
             method: 'POST',
             credentials: 'include',
             headers: {
@@ -92,6 +104,14 @@ function Deliver() {
 
   return (
     <div>
+      <div className='deliver_title'>
+        <h5>寄取資料</h5>
+      </div>
+      <div className='route_box'>
+        <div className='route_state'>
+          <Link to="/"><p>洗衣類別</p></Link><p>&nbsp;&rarr;&nbsp;寄取資料</p>
+        </div>
+      </div>
       <div className="deliver_container">
         <div className="sender_container">
           <div className="sender_box">

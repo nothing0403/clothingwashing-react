@@ -19,7 +19,7 @@ function ClothMenu() {
 
   // 取得 Cloth 資料
   useEffect(() => {
-    fetch('http://localhost:8081/rest/home')
+    fetch('http://localhost:8081/rest/home',{credentials: 'include'})
       .then(res => res.json())
       .then(data => {
         setClothList(data.data); // 後端回傳 ApiResponse<List<ClothDto>>

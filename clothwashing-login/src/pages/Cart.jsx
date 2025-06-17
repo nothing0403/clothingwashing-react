@@ -22,8 +22,27 @@ function Cart(){
       .catch(error => console.error('Fetch error:', error));
   }, []);
 
+  useEffect(() => {
+    if (actionRef) {
+      actionRef.current = async (e) => {
+        /*e.preventDefault();*/
+        const response = await fetch('http://localhost:8081/rest/result',{
+            // 傳入 session
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(clothList)
+        });
+        // 導向寄件和收件人清單
+        navigate('/deliver');
+      };
+    }
+  }, [actionRef]);
+
   return(
     <div className='cart-table'>
+      <h3>衣物清單</h3>
       <div className="table-container">
         <table>
           <thead>

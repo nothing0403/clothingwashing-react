@@ -122,11 +122,13 @@ html, body, #root {
 .cart{
     background-color: rgb(240, 245, 255);
     padding: 0 225px;
-    height: 1015px;
+    padding-bottom: 50px;
+    height: auto;
 }
 
 .price{
     display: flex;
+    justify-content: center;
 }
 
 .price_container{

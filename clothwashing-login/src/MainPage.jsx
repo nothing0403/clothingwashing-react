@@ -30,7 +30,7 @@ function MainPage() {
   return (
     <>
       <div className="container">
-        <div className="title"><img src="./Logo.png"/></div>
+        <div className="title"><img src="./Logo02.png"/></div>
         <nav className="nav_bar">
           <div className="menu">洗衣優惠</div>
           <div className="menu">洗衣價目</div>
@@ -91,7 +91,7 @@ function MainPage() {
 
       <footer className="footer_box">
         <nav className="footer_nav">
-          <h1>Hello</h1>
+          <img src="./Logo01.png"/>
           <div className="menu"><p>洗衣優惠</p></div>
           <div className="menu"><p>洗衣價目</p></div>
           <div className="menu"><p>送洗優惠</p></div>

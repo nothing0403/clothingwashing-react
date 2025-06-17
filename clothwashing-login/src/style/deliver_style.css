@@ -6,13 +6,43 @@
     padding: 60px;
     border-radius: 10px;
     background-color: white;
-    margin-top: 156.6px;
+    /* margin-top: 156.6px; */
     /*margin-bottom: 70px;*/
     display: flex;
     flex-direction: column;
     justify-content: start;
     align-items: center;
     gap: 50px;
+}
+
+.deliver_title{
+    box-sizing: border-box;
+    width: 100%;
+    height: auto;
+    padding: 50px 0 56.59px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.route_box{
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: start;
+    align-items: end;
+    padding-bottom: 10px;
+}
+
+.route_state{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.route_state p{
+    color: rgb(63, 62, 62);
+    font-weight: 800;
 }
 
 .sender_container{
