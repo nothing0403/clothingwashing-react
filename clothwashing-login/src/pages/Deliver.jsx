@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { usePageAction } from '../ActionContext/PageActionContext';
 import { Link } from 'react-router-dom';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -163,14 +163,14 @@ function Deliver() {
               </div>
               <div>
                 選擇收件時段
-                <input type="radio" name="senderTimePeriod" value="morning" onChange={handleSenderChange}/>上午9點至上午12點
-                <input type="radio" name="senderTimePeriod" value="afternoon" onChange={handleSenderChange}/>上午12點至下午3點
-                <input type="radio" name="senderTimePeriod" value="evening" onChange={handleSenderChange}/>下午3點至下午6點
+                <input type="radio" name="senderTimePeriod" value="上午9點至上午12點" onChange={handleSenderChange}/>上午9點至上午12點
+                <input type="radio" name="senderTimePeriod" value="上午12點至下午3點" onChange={handleSenderChange}/>上午12點至下午3點
+                <input type="radio" name="senderTimePeriod" value="下午3點至下午6點" onChange={handleSenderChange}/>下午3點至下午6點
               </div>
               <div>
                 付款方式
-                <input type="radio" name="senderPayment" value="credit_card" onChange={handleSenderChange}/>信用卡
-                <input type="radio" name="senderPayment" value="pay_cash" onChange={handleSenderChange}/>付現
+                <input type="radio" name="senderPayment" value="信用卡" onChange={handleSenderChange}/>信用卡
+                <input type="radio" name="senderPayment" value="付現" onChange={handleSenderChange}/>付現
               </div>
             </div>
           </div>

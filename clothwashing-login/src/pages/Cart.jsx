@@ -1,4 +1,7 @@
 import { useState, useEffect, useRef} from 'react';
+import { usePageAction } from '../ActionContext/PageActionContext';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import '../style/cart_style.css';
 
 function Cart(){
@@ -7,6 +10,8 @@ function Cart(){
   const [senderDto, setSenderDto] = useState({});
   const [receiverDto, setReceiverDto] = useState({});
   const didFetch = useRef(false);
+  const navigate = useNavigate();
+  const actionRef = usePageAction();
 
   useEffect(() => {
     if (didFetch.current) return;
@@ -29,13 +34,29 @@ function Cart(){
         const response = await fetch('http://localhost:8081/rest/result',{
             // 傳入 session
             credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(clothList)
+            // headers: {
+            //     'Content-Type': 'application/json'
+            // },
+            // body: JSON.stringify(clothList)
         });
-        // 導向寄件和收件人清單
-        navigate('/deliver');
+        if (response.ok) {
+          Swal.fire({
+          title: '訂單已完成！',
+          text: '已發送信件！',
+          icon: 'success',
+          confirmButtonText: '前往主畫面'
+        }).then(() => {
+          // 使用者按下確認後，導向主畫面
+          navigate('/'); // 或你想去的路由
+        });
+        } else {
+          Swal.fire({
+            title: '訂單未送出',
+            text: '請確認帳號密碼是否正確',
+            icon: 'error',
+            confirmButtonText: '確定'
+          });
+        }
       };
     }
   }, [actionRef]);

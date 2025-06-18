@@ -37,6 +37,10 @@ function ClothMenu() {
   useEffect(() => {
     if (actionRef) {
       actionRef.current = async (e) => {
+        if (clothList.every(cloth => cloth.clothQuantity==0)){
+          alert("尚未下單，請填選訂單。");
+          return;
+        }
         /*e.preventDefault();*/
         const response = await fetch('http://localhost:8081/rest/update',{
             method: 'POST',

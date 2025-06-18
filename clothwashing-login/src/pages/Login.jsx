@@ -1,13 +1,15 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom'
+import { LoginContext} from '../ActionContext/LoginContext';
 
 function Login() {
 
   const [loginForm, setLoginForm] = useState({useraccount:'', userpassword:''})
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
+  const { setIsLoggedIn } = useContext(LoginContext);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -25,7 +27,9 @@ function Login() {
         body: new URLSearchParams(loginForm)
       });
 
+      console.log('setIsLoggedIn 是：', setIsLoggedIn);
       if (response.ok) {
+        // setIsLoggedIn(true);
         Swal.fire({
         title: '登入成功！',
         text: '歡迎回來！',
@@ -47,26 +51,6 @@ function Login() {
       setError('無法連線到伺服器');
     }
   };
-
-  const handleLogout = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await fetch('http://localhost:8081/rest/logout', {
-        method: 'PUT',
-        credentials: 'include'
-      });
-
-      if (response.ok) {
-        setSuccess('登出成功！');
-        setError('');
-      } else {
-        const result = await response.json();
-        setError(result.message || '登出失敗');
-      }
-    } catch (err) {
-      setError('無法連線到伺服器');
-    }
-  };
   
   return(
     <div>
@@ -75,7 +59,6 @@ function Login() {
       <label>密碼: </label>
       <input type="text" name="userpassword" value={loginForm.userpassword} onChange={handleChange}/><br />
       <button type="button" onClick={handleLogin}>登入</button>
-      <button type="button" onClick={handleLogout}>登出</button>
       <Link to="/login/submit">註冊</Link>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {success && <p style={{ color: 'green' }}>{success}</p>}
