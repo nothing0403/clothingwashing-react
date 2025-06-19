@@ -7,10 +7,12 @@ function OrderSearch() {
   const [expandedOrderId, setExpandedOrderId] = useState(null);
 
   const handleSearch = async () => {
+    console.log(receiveDate);
     const response = await fetch(`http://localhost:8081/rest/ordersearch?receiveDate=${receiveDate}`, {
       credentials: 'include',
     });
     const result = await response.json();
+    console.log(result);
     setOrders(result);
     setExpandedOrderId(null);
   };

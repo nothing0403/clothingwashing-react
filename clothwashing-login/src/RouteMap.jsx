@@ -23,12 +23,12 @@ function RouteMap(){
                     <Routes>
                         <Route path="/" element={<MainPage/>}>
                             <Route index element={<ClothMenu/>}/>
-                            <Route path="ordersearch" element={<OrderSearch/>}/>
                             <Route path="deliver" element={<Deliver/>}/>
                             <Route path="cart" element={<Cart/>}/>
                         </Route>
                         <Route path="/login" element={<Login/>}/>
                         <Route path="/login/submit" element={<Submit/>}/>
+                        <Route path="/ordersearch" element={<OrderSearch/>}/>
                     </Routes>
                 </BrowserRouter>
             </AccountContext.Provider>

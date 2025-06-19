@@ -47,6 +47,7 @@ function Cart(){
           Swal.fire({
           title: '訂單已完成！',
           text: '已發送信件！',
+          scrollbarPadding: false,
           icon: 'success',
           confirmButtonText: '前往主畫面'
         }).then(() => {
@@ -57,6 +58,7 @@ function Cart(){
           Swal.fire({
             title: '訂單未送出',
             text: '請確認帳號密碼是否正確',
+            scrollbarPadding: false,
             icon: 'error',
             confirmButtonText: '確定'
           });

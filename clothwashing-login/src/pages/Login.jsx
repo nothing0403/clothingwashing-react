@@ -32,7 +32,8 @@ function Login() {
       const result = await response.json();
 
       if (response.ok) {
-        setLoginAccount(result.data);
+        console.log(result)
+        setLoginAccount(result.data.userName);
         setIsLoggedIn(true);
         Swal.fire({
         title: '登入成功！',
@@ -42,7 +43,13 @@ function Login() {
       }).then(() => {
         // 使用者按下確認後，導向主畫面
         setSuccess('登入成功');
-        navigate('/'); // 或你想去的路由
+        if(result.data.userRole === "customer"){
+            navigate('/'); // 或你想去的路由
+        }
+        else{
+            navigate('/ordersearch'); 
+        }
+        
       });
       } else {
         Swal.fire({

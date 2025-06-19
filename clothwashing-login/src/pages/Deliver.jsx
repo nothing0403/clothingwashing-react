@@ -21,12 +21,16 @@ function Deliver() {
     setSenderDto({ ...senderDto, [e.target.name]: e.target.value });
     const date = new Date(e.target.value);
     date.setDate(date.getDate() + 5);
-    const formatted = date.toLocaleDateString('zh-TW', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit'
-    });
-    setReceiverDto({...receiverDto, 'receiverDate': formatted})
+    // const formatted = date.toLocaleDateString('zh-TW', {
+    //   year: 'numeric',
+    //   month: '2-digit',
+    //   day: '2-digit'
+    // });
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const formatted = `${year}-${month}-${day}`;
+    setReceiverDto({...receiverDto, 'receiverDate': formatted});
   };
 
   const handleSenderChange = (e) => {
@@ -40,12 +44,17 @@ function Deliver() {
   useEffect(() => {
     const date = new Date();
     for(let i=0; i<4; i++){
-      date.setDate(date.getDate()+1);
-      const formatted = date.toLocaleDateString('zh-TW', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit'
-      });
+      // date.setDate(date.getDate()+1);
+      // const formatted = date.toLocaleDateString('zh-TW', {
+      //   year: 'numeric',
+      //   month: '2-digit',
+      //   day: '2-digit',
+      // });
+      date.setDate(date.getDate() + 1);
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      const formatted = `${year}-${month}-${day}`;
       setSendDate(senddate => [...senddate, formatted]);
     }
   }, [])
