@@ -3,6 +3,7 @@ import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom'
 import { LoginContext} from '../ActionContext/LoginContext';
+import { AccountContext } from '../ActionContext/AccountContext';
 
 function Login() {
 
@@ -10,6 +11,7 @@ function Login() {
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
   const { setIsLoggedIn } = useContext(LoginContext);
+  const { setLoginAccount } = useContext(AccountContext);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -27,16 +29,19 @@ function Login() {
         body: new URLSearchParams(loginForm)
       });
 
-      console.log('setIsLoggedIn 是：', setIsLoggedIn);
+      const result = await response.json();
+
       if (response.ok) {
-        // setIsLoggedIn(true);
+        setLoginAccount(result.data);
+        setIsLoggedIn(true);
         Swal.fire({
         title: '登入成功！',
-        text: '歡迎回來！',
+        text: '歡迎光臨！',
         icon: 'success',
         confirmButtonText: '前往主畫面'
       }).then(() => {
         // 使用者按下確認後，導向主畫面
+        setSuccess('登入成功');
         navigate('/'); // 或你想去的路由
       });
       } else {
@@ -46,6 +51,7 @@ function Login() {
           icon: 'error',
           confirmButtonText: '確定'
         });
+        setError('登入失敗');
       }
     } catch (err) {
       setError('無法連線到伺服器');

@@ -6,7 +6,6 @@ html, body, #root {
   box-sizing: border-box;
 }
 
-
 .container{
     position: fixed;
     z-index: 999;
@@ -18,7 +17,7 @@ html, body, #root {
     right: 0;
     box-sizing: border-box;
     padding: 0 150px 0 150px;
-    margin-bottom: 20px;
+    /* margin-bottom: 20px; */
     font-weight: 900;
 }
 
@@ -64,6 +63,24 @@ html, body, #root {
     justify-content: center;
     align-items: center;
     width: 500px;
+    gap: 20px;
+}
+
+.sign_out{
+    width: 250px;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.sign_out p{
+    width: 120px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .sign_in{
@@ -102,7 +119,7 @@ html, body, #root {
 .swiper{
    width: 100%;
    height: auto;
-   margin-top: 120px;
+   margin-top: 110px;
    margin-bottom: 40px;
 }
 
@@ -205,6 +222,9 @@ html, body, #root {
 .next p{
     color: white;
     font-weight: 900;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .footer_box{

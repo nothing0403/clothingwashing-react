@@ -1,0 +1,84 @@
+/* OrderSearch.css */
+.order-search-container {
+  padding: 20px;
+  max-width: 800px;
+  margin: auto;
+  font-family: sans-serif;
+}
+
+.search-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.search-bar input[type="date"] {
+  padding: 6px 10px;
+  font-size: 16px;
+}
+
+.search-bar button {
+  padding: 6px 20px;
+  font-size: 16px;
+  background-color: #333;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.search-bar button:hover {
+  background-color: #555;
+}
+
+.order-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.order-item {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #f9f9f9;
+}
+
+.order-summary {
+  padding: 10px 15px;
+  cursor: pointer;
+  background-color: #eef;
+}
+
+.order-summary p {
+  margin: 5px 0;
+}
+
+.item-detail {
+  padding: 10px 20px;
+  background-color: #fff;
+}
+
+.item-card {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 10px;
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+}
+
+.item-card img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.item-card h4 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.item-card p {
+  margin: 3px 0;
+}

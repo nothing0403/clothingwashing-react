@@ -27,7 +27,7 @@ function Submit() {
       if (response.ok) {
         Swal.fire({
         title: '註冊成功！',
-        text: '歡迎回來！',
+        text: '歡迎成為會員！',
         icon: 'success',
         confirmButtonText: '前往登入畫面'
       }).then(() => {
