@@ -47,7 +47,7 @@ function Login() {
             navigate('/'); // 或你想去的路由
         }
         else{
-            navigate('/ordersearch'); 
+            navigate('/contentlist'); 
         }
         
       });

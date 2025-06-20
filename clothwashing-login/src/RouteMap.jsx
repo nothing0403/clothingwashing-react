@@ -8,7 +8,7 @@ import MainPage from './MainPage.jsx'
 import Cart from './pages/Cart.jsx';
 import { LoginContext} from './ActionContext/LoginContext';
 import { AccountContext } from './ActionContext/AccountContext';
-import OrderSearch from "./pages/OrderSearch.jsx";
+import ContentList from "./pages/ContentList.jsx";
 
 function RouteMap(){
 
@@ -28,7 +28,7 @@ function RouteMap(){
                         </Route>
                         <Route path="/login" element={<Login/>}/>
                         <Route path="/login/submit" element={<Submit/>}/>
-                        <Route path="/ordersearch" element={<OrderSearch/>}/>
+                        <Route path="/contentlist" element={<ContentList/>}/>
                     </Routes>
                 </BrowserRouter>
             </AccountContext.Provider>
