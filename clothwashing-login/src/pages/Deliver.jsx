@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from 'react-router-dom';
 import { usePageAction } from '../ActionContext/PageActionContext';
+import { PageNumberContext } from "../ActionContext/PageNumberContext";
 import { Link } from 'react-router-dom';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../style/deliver_style.css'
@@ -9,10 +10,23 @@ function Deliver() {
 
   const navigate = useNavigate();
   const actionRef = usePageAction();
+  const { setPageNumber } = useContext(PageNumberContext);
 
-  const [senderDto, setSenderDto] = useState({});
+  const [senderDto, setSenderDto] = useState({
+    senderName: "",
+    senderPhone: "",
+    senderAddress: "",
+    senderDate: null,
+    senderTimePeriod: "",
+    senderPayment: ""
+  });
 
-  const [receiverDto, setReceiverDto] = useState({});
+  const [receiverDto, setReceiverDto] = useState({
+    receiverName: "",
+    receiverPhone: "",
+    receiverAddress: "",
+    receiverDate: null
+  });
 
   // const senddate = new Date();
   const [senddate, setSendDate] = useState([]);
@@ -42,42 +56,30 @@ function Deliver() {
   };
 
   useEffect(() => {
-    const date = new Date();
-    for(let i=0; i<4; i++){
-      // date.setDate(date.getDate()+1);
-      // const formatted = date.toLocaleDateString('zh-TW', {
-      //   year: 'numeric',
-      //   month: '2-digit',
-      //   day: '2-digit',
-      // });
-      date.setDate(date.getDate() + 1);
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      const day = String(date.getDate()).padStart(2, '0');
-      const formatted = `${year}-${month}-${day}`;
-      setSendDate(senddate => [...senddate, formatted]);
-    }
-  }, [])
+      setPageNumber(1);
 
-  useEffect(() => {
+      const date = new Date();
+      for(let i=0; i<4; i++){
+        // date.setDate(date.getDate()+1);
+        // const formatted = date.toLocaleDateString('zh-TW', {
+        //   year: 'numeric',
+        //   month: '2-digit',
+        //   day: '2-digit',
+        // });
+        date.setDate(date.getDate() + 1);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const formatted = `${year}-${month}-${day}`;
+        setSendDate(senddate => [...senddate, formatted]);
+      }
+
       fetch('http://localhost:8081/rest/deliver',{credentials: 'include'})
         .then(res => res.json())
         .then(data => {
           const deliver = data.data; 
-          setSenderDto(deliver.senderDto || {
-            senderName: "",
-            senderPhone: "",
-            senderAddress: "",
-            senderDate: null,
-            senderTimePeriod: "",
-            senderPayment: ""
-          });
-          setReceiverDto(deliver.receiverDto || {
-            receiverName: "",
-            receiverPhone: "",
-            receiverAddress: "",
-            receiverDate: null
-          }); // 後端回傳 ApiResponse<List<ClothDto>>
+          setSenderDto({...senderDto, ...deliver.senderDto});
+          setReceiverDto({...receiverDto,...deliver.receiverDto}); // 後端回傳 ApiResponse<List<ClothDto>>
         })
         .catch(error => console.error('Fetch error:', error));
     }, []);
@@ -87,6 +89,7 @@ function Deliver() {
     if (actionRef) {
       actionRef.current = async (e) => {
         if (!Object.values(senderDto).every(val =>!!val)){
+          console.log(senderDto)
           alert("寄件人資料未完成。");
           return;
         }
@@ -131,7 +134,7 @@ function Deliver() {
                 type="text"
                 name='senderName'
                 placeholder="請輸入姓名"
-                value={senderDto.senderName}
+                value={senderDto.senderName || ''}
                 onChange={handleSenderChange}
                 required
               />
@@ -142,7 +145,7 @@ function Deliver() {
                 type="text"
                 name='senderPhone'
                 placeholder="請輸入電話"
-                value={senderDto.senderPhone}
+                value={senderDto.senderPhone || ''}
                 onChange={handleSenderChange}
                 required
               />
@@ -153,7 +156,7 @@ function Deliver() {
                 type="text"
                 name='senderAddress'
                 placeholder="請輸入地址"
-                value={senderDto.senderAddress}
+                value={senderDto.senderAddress || ''}
                 onChange={handleSenderChange}
                 required
               />
@@ -193,7 +196,7 @@ function Deliver() {
                 type="text"
                 name="receiverName"
                 placeholder="請輸入姓名"
-                value={receiverDto.receiverName}
+                value={receiverDto.receiverName || ''}
                 onChange={handleReceiverChange}
                 required
               />
@@ -204,7 +207,7 @@ function Deliver() {
                 type="text"
                 name="receiverPhone"
                 placeholder="請輸入電話"
-                value={receiverDto.receiverPhone}
+                value={receiverDto.receiverPhone || ''}
                 onChange={handleReceiverChange}
                 required
               />
@@ -215,14 +218,14 @@ function Deliver() {
                 type="text"
                 name="receiverAddress"
                 placeholder="請輸入地址"
-                value={receiverDto.receiverAddress}
+                value={receiverDto.receiverAddress || ''}
                 onChange={handleReceiverChange}
                 required
               />
             </div>
           </div>
           <div className="send_date">
-            到件日期估計為: {receiverDto.receiverDate}
+            到件日期估計為: {receiverDto.receiverDate || ''}
           </div>
         </div>
       </div>

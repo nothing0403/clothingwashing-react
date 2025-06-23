@@ -4,12 +4,14 @@ import { usePageAction } from '../ActionContext/PageActionContext';
 import { PriceContext } from '../ActionContext/PriceContext';
 import { QuantityContext } from '../ActionContext/QuantityContext';
 import '../style/clothmenu_style.css';
+import { PageNumberContext } from '../ActionContext/PageNumberContext';
 
 function ClothMenu() {
 
   const [clothList, setClothList] = useState([]);
   const { setTotalPrice } = useContext(PriceContext);
   const { setTotalQuantity } = useContext(QuantityContext);
+  const { setPageNumber } = useContext(PageNumberContext);
   const navigate = useNavigate();
   const actionRef = usePageAction();
 
@@ -20,11 +22,12 @@ function ClothMenu() {
   // 取得 Cloth 資料
   useEffect(() => {
     fetch('http://localhost:8081/rest/home',{credentials: 'include'})
-      .then(res => res.json())
-      .then(data => {
-        setClothList(data.data); // 後端回傳 ApiResponse<List<ClothDto>>
-      })
-      .catch(error => console.error('Fetch error:', error));
+    .then(res => res.json())
+    .then(data => {
+      setClothList(data.data); // 後端回傳 ApiResponse<List<ClothDto>>
+    })
+    .catch(error => console.error('Fetch error:', error));
+    setPageNumber(0);
   }, []);
 
   useEffect(() => {

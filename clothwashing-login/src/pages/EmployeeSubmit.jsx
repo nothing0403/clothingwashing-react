@@ -3,13 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import '../style/submit_style.css';
 
-function Submit() {
+function EmployeeSubmit() {
   const [submitForm, setSubmitForm] = useState({
-    username: '',
     useraccount: '',
     userpassword: '',
-    userphone: '',
-    useraddress: ''
+    userrole: ''
   });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -28,7 +26,7 @@ function Submit() {
     }
     
     try {
-      const response = await fetch('http://localhost:8081/rest/submit', {
+      const response = await fetch('http://localhost:8081/rest/employee/submit', {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -38,11 +36,11 @@ function Submit() {
       if (response.ok) {
         Swal.fire({
           title: '註冊成功！',
-          text: '歡迎成為會員！',
+          text: '已新增員工！',
           icon: 'success',
           confirmButtonText: '前往登入畫面',
         }).then(() => {
-          navigate('/login');
+          navigate('/contentlist');
         });
       } else {
         Swal.fire({
@@ -60,34 +58,7 @@ function Submit() {
   return (
     <div className="submit-container">
       <form className="submit-form">
-        <h2>會員註冊</h2>
-
-        <label>名字</label>
-        <input
-          type="text"
-          name="username"
-          value={submitForm.username}
-          onChange={handleChange}
-          placeholder="請輸入姓名"
-        />
-
-        <label>電話</label>
-        <input
-          type="text"
-          name="userphone"
-          value={submitForm.userphone}
-          onChange={handleChange}
-          placeholder="請輸入電話"
-        />
-
-        <label>地址</label>
-        <input
-          type="text"
-          name="useraddress"
-          value={submitForm.useraddress}
-          onChange={handleChange}
-          placeholder="請輸入地址"
-        />
+        <h2>員工註冊</h2>
 
         <label>帳號</label>
         <input
@@ -107,6 +78,15 @@ function Submit() {
           placeholder="請輸入密碼"
         />
 
+        <label>角色類別</label>
+        <input
+          type="text"
+          name="userrole"
+          value={submitForm.userrole}
+          onChange={handleChange}
+          placeholder="請輸入角色類別"
+        />
+
         <button type="submit" onClick={handleClick}>註冊</button>
 
         {error && <p className="error-text">{error}</p>}
@@ -116,4 +96,4 @@ function Submit() {
   );
 }
 
-export default Submit;
+export default EmployeeSubmit;

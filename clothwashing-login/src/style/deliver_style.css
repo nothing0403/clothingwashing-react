@@ -23,6 +23,8 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    font-weight: 900;
+    font-size: 25px;
 }
 
 .route_box{

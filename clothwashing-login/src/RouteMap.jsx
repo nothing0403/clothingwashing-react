@@ -6,6 +6,8 @@ import Login from './pages/Login.jsx'
 import Submit from './pages/Submit.jsx'
 import MainPage from './MainPage.jsx'
 import Cart from './pages/Cart.jsx';
+import Forget from "./pages/forget.jsx";
+import EmployeeSubmit from "./pages/EmployeeSubmit.jsx";
 import { LoginContext} from './ActionContext/LoginContext';
 import { AccountContext } from './ActionContext/AccountContext';
 import ContentList from "./pages/ContentList.jsx";
@@ -28,7 +30,9 @@ function RouteMap(){
                         </Route>
                         <Route path="/login" element={<Login/>}/>
                         <Route path="/login/submit" element={<Submit/>}/>
+                        <Route path="/login/forget" element={<Forget/>}/>
                         <Route path="/contentlist" element={<ContentList/>}/>
+                        <Route path="/employee/submit" element={<EmployeeSubmit/>}/>
                     </Routes>
                 </BrowserRouter>
             </AccountContext.Provider>

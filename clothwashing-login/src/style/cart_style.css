@@ -21,13 +21,35 @@
   box-shadow: 0 0 20px rgba(0,0,0,0.1);
 }
 
+.cart-title{
+  box-sizing: border-box;
+  width: 100%;
+  height: auto;
+  padding: 50px 0 0 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 25px;
+}
+
+.route_state_all{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 56px;
+}
+
+.route_state_all p{
+    color: rgb(63, 62, 62);
+    font-weight: 800;
+}
+
 .cart-table{
-    /* height: 800px; */
     width: 500px;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    margin-top: 156.6px;
 }
 
 .table-container {

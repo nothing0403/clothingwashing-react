@@ -1,7 +1,10 @@
 import { useState, useEffect, useContext, useRef} from 'react';
 import { usePageAction } from '../ActionContext/PageActionContext';
 import { LoadingContext } from '../ActionContext/LoadingContext';
+import { LoginContext } from '../ActionContext/LoginContext';
+import { PageNumberContext } from '../ActionContext/PageNumberContext';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import '../style/cart_style.css';
 
@@ -10,13 +13,16 @@ function Cart(){
   const [clothList, setClothList] = useState([]);
   const [senderDto, setSenderDto] = useState({});
   const [receiverDto, setReceiverDto] = useState({});
+  const { setPageNumber } = useContext(PageNumberContext);
   const {isLoading, setIsLoading} = useContext(LoadingContext);
   const didFetch = useRef(false);
   const navigate = useNavigate();
   const actionRef = usePageAction();
+  const { isLoggedIn } = useContext(LoginContext);
 
   useEffect(() => {
     if (didFetch.current) return;
+    setPageNumber(2);
     didFetch.current = true;
     fetch('http://localhost:8081/rest/cart',{credentials: 'include'})
       .then(res => res.json())
@@ -32,6 +38,10 @@ function Cart(){
   useEffect(() => {
     if (actionRef) {
       actionRef.current = async (e) => {
+        if( !isLoggedIn ){
+          alert("請登入會員。")
+          return;
+        }
         setIsLoading(true);
         /*e.preventDefault();*/
         const response = await fetch('http://localhost:8081/rest/result',{
@@ -74,6 +84,16 @@ function Cart(){
         <div className="loading-box"> 訂單處理中，請稍候...</div>
       </div>
       )}
+      <div className='cart-title'>
+        <h5>訂單結算</h5>
+      </div>
+      <div className='route_box'>
+        <div className='route_state_all'>
+          <Link to="/"><p>洗衣類別</p></Link>
+          <Link to='/deliver'><p>&nbsp;&rarr;&nbsp;寄取資料</p></Link>
+          <p>&nbsp;&rarr;&nbsp;訂單結算</p>
+        </div>
+      </div>
       <div className='cart-table'>
         <h3>衣物清單</h3>
         <div className="table-container">

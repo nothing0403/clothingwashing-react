@@ -238,15 +238,15 @@ html, body, #root {
 
 .footer_nav{
     display: flex;
-    align-items: center;
+    align-items: start;
     width: 100%;
     height: auto;
-    padding: 50px 0;
 }
 
 .footer_nav img{
-    width: 200px;
+    width: 400px;
     height: auto;
+    padding: 50px;
 }
 
 .footer_nav p{

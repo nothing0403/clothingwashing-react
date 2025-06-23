@@ -12,8 +12,9 @@
     margin-bottom: 10px;
 }
 
-h5{
+.kind_title h5{
     font-size: 25px !important;
+    font-weight: 900;
 }
 
 .kind_button button{
