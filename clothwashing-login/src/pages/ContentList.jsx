@@ -1,24 +1,33 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import { LoginContext } from '../ActionContext/LoginContext';
 import '../style/contentlist_style.css';
 
 function ContentList() {
-  const [userDto, setUserDto] = useState([]);
+  const [userDto, setUserDto] = useState({});
   const [receiveDate, setReceiveDate] = useState('');
   const [sendDate, setSendDate] = useState('');
   const [contents, setContents] = useState([]);
+  const [error, setError] = useState('');
   const [useReceiveSearch, setUseReceiveSearch] = useState(false);
   const [useSendSearch, setUseSendSearch] = useState(false);
   const [expandedContentId, setExpandedContentId] = useState(null);
-  const [state, setState] = useState('');
+  const {setIsLoggedIn} = useContext(LoginContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('http://localhost:8081/rest/contentlist',{credentials: 'include',})
-      .then(res => res.json())
-      .then(data => {
+    fetch('http://localhost:8081/rest/contentlist', { credentials: 'include' })
+      .then(async res => {
+        if (res.status === 401 || res.status === 403) {
+          // 登入失效
+          Swal.fire('登入已過期，請重新登入').then(() => navigate('/'));
+          return;
+        }
+        const data = await res.json();
         setUserDto(data.data);
       })
-      .catch(error => console.error('Fetch error:', error));
   }, []);
 
   useEffect(() => {
@@ -138,183 +147,83 @@ function ContentList() {
     setExpandedContentId(expandedContentId === contentId ? null : contentId);
   };
 
+  const handleLogout = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('http://localhost:8081/rest/logout', {
+        method: 'PUT',
+        credentials: 'include'
+      });
+
+      if (response.ok) {
+        setIsLoggedIn(false);
+        Swal.fire({
+        title: '已登出。',
+        text: '',
+        scrollbarPadding: false,
+        icon: 'success',
+        confirmButtonText: '返回'
+      }).then(() => {
+        // 使用者按下確認後，導向主畫面
+        navigate('/'); // 或你想去的路由
+      });
+      } 
+
+    } catch (err) {
+      setError('無法連線到伺服器');
+    }
+  };
+
   return (
     <div className="order-search-container">
-      <div className='sign-area'>
-        <Link className='sign_in' to='/employee/submit'>員工註冊</Link>
-      </div>
-      <div className='search-bar-set'> 
-        <div className="search-bar">
-          <h2>收件日期查詢訂單</h2>
-          <input
-            type="date"
-            value={receiveDate}
-            onChange={(e) => setReceiveDate(e.target.value)}
-          />
-          <div className='button-area'>
-            <button onClick={() => handleReceiveDateSearch()}>搜尋</button>
+      {userDto && 
+        <>
+          <div className='sign-area'>
+            <p>
+              員工類別：{userDto.userRole}
+            </p>
+            <div className='role-style'>
+              {userDto.userRole === 'administrator' && (
+                <Link className='sign_in' to='/employee/submit'>員工註冊</Link>
+              )}
+              <button onClick={handleLogout}>登出</button>
+            </div>
           </div>
-        </div>
-
-        <div className="search-bar">
-          <h2>寄件日期查詢訂單</h2>
-          <input
-            type="date"
-            value={sendDate}
-            onChange={(e) => setSendDate(e.target.value)}
-          />
-          <div className='button-area'>
-            <button onClick={() => handleSendDateSearch()}>搜尋</button>
-          </div>
-        </div>
-      </div>
-    
-      <div className='order-container'>
-         {userDto.userRole === 'laundryman' && (
-          <div className="order-list">
-            {contents.map((content) => (
-              <div key={content.contentId} className="order-item">
-                <div className="order-summary" onClick={() => toggleExpand(content.contentId)}>
-                  <p>訂單編號：{content.contentId}</p>
-                  <p>項目數量：{content.itemDtos.length}</p>
-                  <p>寄送日期：{content.contentSendDate}</p>
-                  <p>訂單狀態：
-                    {content.contentState?
-                      '可寄送'
-                      :
-                      '待處理'
-                    } 
-                  </p>
-                </div>
-                {expandedContentId === content.contentId && (
-                  <div className="item-detail">
-                    {content.itemDtos.map((item) => (
-                      <div key={item.itemId} className="item-card">
-                        <img src={item.clothDto.clothImg} alt={item.clothDto.clothName} />
-                        <div>
-                          <h4>{item.clothDto.clothName}</h4>
-                          <p>尺寸：{item.clothDto.clothSize}</p>
-                          <p>數量：{item.itemQuantity}</p>
-                          <p>狀態：
-                            <div className='item-check'>
-                              {item.itemState ? 
-                                '已完成' 
-                                : 
-                                <>
-                                  處理中
-                                  <button className='check-button' onClick={() => {handleItemState(content.contentId, item.itemId)}}>確定</button>
-                                </>
-                              }
-                            </div> 
-                          </p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
+          <div className='search-bar-set'> 
+            <div className="search-bar">
+              <h2>收件日期查詢訂單</h2>
+              <input
+                type="date"
+                value={receiveDate}
+                onChange={(e) => setReceiveDate(e.target.value)}
+              />
+              <div className='button-area'>
+                <button onClick={() => handleReceiveDateSearch()}>搜尋</button>
               </div>
-            ))}
-          </div>
-        )}
+            </div>
 
-        {userDto.userRole === 'driver' && (
-          <div className="order-list">
-            {contents.map((content) => (
-              <div key={content.contentId} className="order-item">
-                {useReceiveSearch && (
-                  <>
-                    <div className="order-summary" onClick={() => toggleExpand(content.contentId)}>
-                      <p>寄件編號：{content.receiverDto.receiverId}</p>
-                      <p>收件人：{content.receiverDto.receiverName}</p>
-                      <p>寄件地址：{content.receiverDto.receiverAddress}</p>
-                      <p>收件人電話：{content.receiverDto.receiverPhone}</p>
-                      <p>寄件狀態: 
-                        {
-                          content.contentState?
-                          (
-                            content.receiverDto.receiverState? 
-                            '已送達'
-                            :
-                            (
-                            <>
-                              寄送中
-                              <button className='check-button' onClick={() => {handleReceiverState(content.contentId)}}>確定</button>
-                            </>
-                            )
-                          )
-                          :
-                          '待處理'
-                        }         
-                      </p>
-                    </div>
-                    {expandedContentId === content.contentId && (
-                      <div className="item-detail">
-                        {content.itemDtos.map((item) => (
-                          <div key={item.itemId} className="item-card">
-                            <img src={item.clothDto.clothImg} alt={item.clothDto.clothName} />
-                            <div>
-                              <h4>{item.clothDto.clothName}</h4>
-                              <p>尺寸：{item.clothDto.clothSize}</p>
-                              <p>數量：{item.itemQuantity}</p>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </>
-                )}
-                
-                {useSendSearch && (
-                  <>
-                    <div className="order-summary" onClick={() => toggleExpand(content.contentId)}>
-                      <p>收件編號：{content.senderDto.senderId}</p>
-                      <p>寄件人：{content.senderDto.senderName}</p>
-                      <p>收件地址：{content.senderDto.senderAddress}</p>
-                      <p>寄件人電話：{content.senderDto.senderPhone}</p>
-                      <p>收件狀態： 
-                        {content.senderDto.senderState? 
-                          '已收件'
-                          :
-                          (
-                          <>
-                            待收件
-                            <button className='check-button' onClick={() => {handleSenderState(content.contentId)}}>確定</button>
-                          </>
-                          )
-                        }       
-                      </p>
-                    </div>
-                    {expandedContentId === content.contentId && (
-                      <div className="item-detail">
-                        {content.itemDtos.map((item) => (
-                          <div key={item.itemId} className="item-card">
-                            <img src={item.clothDto.clothImg} alt={item.clothDto.clothName} />
-                            <div>
-                              <h4>{item.clothDto.clothName}</h4>
-                              <p>尺寸：{item.clothDto.clothSize}</p>
-                              <p>數量：{item.itemQuantity}</p>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </>
-                )}
+            <div className="search-bar">
+              <h2>寄件日期查詢訂單</h2>
+              <input
+                type="date"
+                value={sendDate}
+                onChange={(e) => setSendDate(e.target.value)}
+              />
+              <div className='button-area'>
+                <button onClick={() => handleSendDateSearch()}>搜尋</button>
               </div>
-            ))}
+            </div>
           </div>
-        )}
-
-        {userDto.userRole === 'administrator' && (
-          <div className="order-list">
-            {contents.map((content) => (
-              <div key={content.contentId} className="order-item">
-                {(useSendSearch || useReceiveSearch) && (
-                  <>
+        
+          <div className='order-container'>
+            {userDto.userRole === 'laundryman' && (
+              <div className="order-list">
+                {contents.map((content) => (
+                  <div key={content.contentId} className="order-item">
                     <div className="order-summary" onClick={() => toggleExpand(content.contentId)}>
                       <p>訂單編號：{content.contentId}</p>
-                      <p>收件日期：{content.contentReceiveDate}</p>
-                      <p>寄件日期：{content.contentSendDate}</p>
+                      <p>項目數量：{content.itemDtos.length}</p>
+                      <p>寄送日期：{content.contentSendDate}</p>
                       <p>訂單狀態：
                         {content.contentState?
                           '可寄送'
@@ -337,7 +246,10 @@ function ContentList() {
                                   {item.itemState ? 
                                     '已完成' 
                                     : 
-                                    '處理中'
+                                    <>
+                                      處理中
+                                      <button className='check-button' onClick={() => {handleItemState(content.contentId, item.itemId)}}>確定</button>
+                                    </>
                                   }
                                 </div> 
                               </p>
@@ -346,13 +258,149 @@ function ContentList() {
                         ))}
                       </div>
                     )}
-                  </>
-                )}
+                  </div>
+                ))}
               </div>
-            ))}
+            )}
+
+            {userDto.userRole === 'driver' && (
+              <div className="order-list">
+                {contents.map((content) => (
+                  <div key={content.contentId} className="order-item">
+                    {useReceiveSearch && (
+                      <>
+                        <div className="order-summary" onClick={() => toggleExpand(content.contentId)}>
+                          <p>寄件編號：{content.receiverDto.receiverId}</p>
+                          <p>收件人：{content.receiverDto.receiverName}</p>
+                          <p>寄件地址：{content.receiverDto.receiverAddress}</p>
+                          <p>收件人電話：{content.receiverDto.receiverPhone}</p>
+                          <p>寄件狀態: 
+                            {
+                              content.contentState?
+                              (
+                                content.receiverDto.receiverState? 
+                                '已送達'
+                                :
+                                (
+                                <>
+                                  寄送中
+                                  <button className='check-button' onClick={() => {handleReceiverState(content.contentId)}}>確定</button>
+                                </>
+                                )
+                              )
+                              :
+                              '待處理'
+                            }         
+                          </p>
+                        </div>
+                        {expandedContentId === content.contentId && (
+                          <div className="item-detail">
+                            {content.itemDtos.map((item) => (
+                              <div key={item.itemId} className="item-card">
+                                <img src={item.clothDto.clothImg} alt={item.clothDto.clothName} />
+                                <div>
+                                  <h4>{item.clothDto.clothName}</h4>
+                                  <p>尺寸：{item.clothDto.clothSize}</p>
+                                  <p>數量：{item.itemQuantity}</p>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </>
+                    )}
+                    
+                    {useSendSearch && (
+                      <>
+                        <div className="order-summary" onClick={() => toggleExpand(content.contentId)}>
+                          <p>收件編號：{content.senderDto.senderId}</p>
+                          <p>寄件人：{content.senderDto.senderName}</p>
+                          <p>收件地址：{content.senderDto.senderAddress}</p>
+                          <p>寄件人電話：{content.senderDto.senderPhone}</p>
+                          <p>收件狀態： 
+                            {content.senderDto.senderState? 
+                              '已收件'
+                              :
+                              (
+                              <>
+                                待收件
+                                <button className='check-button' onClick={() => {handleSenderState(content.contentId)}}>確定</button>
+                              </>
+                              )
+                            }       
+                          </p>
+                        </div>
+                        {expandedContentId === content.contentId && (
+                          <div className="item-detail">
+                            {content.itemDtos.map((item) => (
+                              <div key={item.itemId} className="item-card">
+                                <img src={item.clothDto.clothImg} alt={item.clothDto.clothName} />
+                                <div>
+                                  <h4>{item.clothDto.clothName}</h4>
+                                  <p>尺寸：{item.clothDto.clothSize}</p>
+                                  <p>數量：{item.itemQuantity}</p>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {userDto.userRole === 'administrator' && (
+              <div className="order-list">
+                {contents.map((content) => (
+                  <div key={content.contentId} className="order-item">
+                    {(useSendSearch || useReceiveSearch) && (
+                      <>
+                        <div className="order-summary" onClick={() => toggleExpand(content.contentId)}>
+                          <p>訂單編號：{content.contentId}</p>
+                          <p>收件日期：{content.contentReceiveDate}</p>
+                          <p>寄件日期：{content.contentSendDate}</p>
+                          <p>訂單狀態：
+                            {content.contentState?
+                              '可寄送'
+                              :
+                              '待處理'
+                            } 
+                          </p>
+                        </div>
+                        {expandedContentId === content.contentId && (
+                          <div className="item-detail">
+                            {content.itemDtos.map((item) => (
+                              <div key={item.itemId} className="item-card">
+                                <img src={item.clothDto.clothImg} alt={item.clothDto.clothName} />
+                                <div>
+                                  <h4>{item.clothDto.clothName}</h4>
+                                  <p>尺寸：{item.clothDto.clothSize}</p>
+                                  <p>數量：{item.itemQuantity}</p>
+                                  <p>狀態：
+                                    <div className='item-check'>
+                                      {item.itemState ? 
+                                        '已完成' 
+                                        : 
+                                        '處理中'
+                                      }
+                                    </div> 
+                                  </p>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
-        )}
-      </div>
+        </>
+      } 
     </div>
   );
 }

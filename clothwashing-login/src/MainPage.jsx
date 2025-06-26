@@ -30,12 +30,36 @@ function MainPage() {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const {loginAccount} = useContext(AccountContext);
+  const {loginAccount, setLoginAccount} = useContext(AccountContext);
 
   const navigate = useNavigate();
 
   const [pageNumber, setPageNumber] = useState(0);
 
+  useState(() => {
+    fetch('http://localhost:8081/rest/getUserInfo', {credentials: 'include'})
+    .then(res => res.json())
+    .then(data => {
+      if(data.data != null){
+        setLoginAccount(data.data);
+        setIsLoggedIn(true);
+      }
+    })
+  },[]);
+
+  useState(() => {
+    fetch('http://localhost:8081/rest/getUserClothInfo', {credentials: 'include'})
+    .then(res => res.json())
+    .then(data => {
+      const filterClothList = data.data
+      if(filterClothList != null){
+        const total = filterClothList.map(cloth => cloth.clothQuantity*cloth.clothPrice).reduce((sum, current) => sum + current, 0);
+        setTotalPrice(total);
+        const quantity = filterClothList.map(cloth => cloth.clothQuantity).reduce((sum, current) => sum + current, 0);
+        setTotalQuantity(quantity);
+      }
+    })
+  },[]);
 
   const handleTrigger = () => {
     if (actionRef.current) {
@@ -65,14 +89,6 @@ function MainPage() {
       });
       } 
 
-      // if (response.ok) {
-      //   setIsLoggedIn(false);
-      //   setSuccess('登出成功！');
-      //   setError('');
-      // } else {
-      //   const result = await response.json();
-      //   setError(result.message || '登出失敗');
-      // }
     } catch (err) {
       setError('無法連線到伺服器');
     }

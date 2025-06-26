@@ -51,6 +51,11 @@
   background-color: #218838;
 }
 
+.role-kind{
+  display: flex;
+  gap: 20px;
+}
+
 .error-text {
   color: red;
   font-size: 14px;

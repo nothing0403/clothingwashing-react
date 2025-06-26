@@ -78,8 +78,18 @@ function Deliver() {
         .then(res => res.json())
         .then(data => {
           const deliver = data.data; 
-          setSenderDto({...senderDto, ...deliver.senderDto});
-          setReceiverDto({...receiverDto,...deliver.receiverDto}); // 後端回傳 ApiResponse<List<ClothDto>>
+          setSenderDto({...senderDto, senderName: deliver.senderDto.senderName,
+                                      senderPhone: deliver.senderDto.senderPhone,
+                                      senderAddress: deliver.senderDto.senderAddress,
+                                      senderDate: deliver.senderDto.senderDate,
+                                      senderPayment: deliver.senderDto.senderPayment,
+                                      senderTimePeriod: deliver.senderDto.senderTimePeriod
+          });
+          setReceiverDto({...receiverDto, receiverName: deliver.receiverDto.receiverName,
+                                          receiverPhone: deliver.receiverDto.receiverPhone,
+                                          receiverAddress: deliver.receiverDto.receiverAddress,
+                                          receiverDate: deliver.receiverDto.receiverDate
+          }); 
         })
         .catch(error => console.error('Fetch error:', error));
     }, []);

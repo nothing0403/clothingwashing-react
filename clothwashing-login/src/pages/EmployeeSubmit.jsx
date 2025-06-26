@@ -12,6 +12,11 @@ function EmployeeSubmit() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const navigate = useNavigate();
+  const roles = Object.freeze({
+    LAUNDRYMAN: 'laundryman',
+    DRIVER: 'driver',
+    ADMIN: 'administrator',
+  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -77,15 +82,14 @@ function EmployeeSubmit() {
           onChange={handleChange}
           placeholder="請輸入密碼"
         />
-
-        <label>角色類別</label>
-        <input
-          type="text"
-          name="userrole"
-          value={submitForm.userrole}
-          onChange={handleChange}
-          placeholder="請輸入角色類別"
-        />
+        <div  className="role-kind">
+          <label>角色類別</label>
+          <select name="userrole" onChange={handleChange} placeholder="請選擇員工角色">
+            <option value={roles.LAUNDRYMAN}>{roles.LAUNDRYMAN}</option>
+            <option value={roles.DRIVER}>{roles.DRIVER}</option>
+            <option value={roles.ADMIN}>{roles.ADMIN}</option>
+          </select>
+        </div>
 
         <button type="submit" onClick={handleClick}>註冊</button>
 

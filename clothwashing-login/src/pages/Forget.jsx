@@ -47,7 +47,7 @@ function Forget() {
         setError('找不到該帳號，密碼重設失敗。');
       }
     } catch (err) {
-      setError('無法連線到伺服器');
+      setError('找不到該帳號。');
     }
   };
 

@@ -14,13 +14,16 @@ function Login() {
   const { setLoginAccount } = useContext(AccountContext);
   const navigate = useNavigate();
 
+  useState(() => {
+    setCaptchaUrl(`http://localhost:8081/rest/captcha?${new Date().getTime()}`);
+  }, [])
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setLoginForm((loginForm) => ({ ...loginForm, [name]: value }));
   };
 
   const handleAuthCode = () => {
-    
     setCaptchaUrl(`http://localhost:8081/rest/captcha?${new Date().getTime()}`)
   }
 
@@ -30,6 +33,7 @@ function Login() {
       alert("請填寫登入欄位。");
       return;
     }
+
     try {
       const response = await fetch('http://localhost:8081/rest/login', {
         method: 'POST',
@@ -67,7 +71,7 @@ function Login() {
         setError('帳密錯誤');
       }
     } catch (err) {
-      setError('無法連線到伺服器');
+      setError('驗證碼錯誤。');
     }
   };
 
