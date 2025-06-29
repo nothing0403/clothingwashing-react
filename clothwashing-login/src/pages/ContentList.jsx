@@ -239,7 +239,6 @@ function ContentList() {
                             <img src={item.clothDto.clothImg} alt={item.clothDto.clothName} />
                             <div>
                               <h4>{item.clothDto.clothName}</h4>
-                              <p>尺寸：{item.clothDto.clothSize}</p>
                               <p>數量：{item.itemQuantity}</p>
                               <p>狀態：
                                 <div className='item-check'>
@@ -300,7 +299,6 @@ function ContentList() {
                                 <img src={item.clothDto.clothImg} alt={item.clothDto.clothName} />
                                 <div>
                                   <h4>{item.clothDto.clothName}</h4>
-                                  <p>尺寸：{item.clothDto.clothSize}</p>
                                   <p>數量：{item.itemQuantity}</p>
                                 </div>
                               </div>
@@ -337,7 +335,6 @@ function ContentList() {
                                 <img src={item.clothDto.clothImg} alt={item.clothDto.clothName} />
                                 <div>
                                   <h4>{item.clothDto.clothName}</h4>
-                                  <p>尺寸：{item.clothDto.clothSize}</p>
                                   <p>數量：{item.itemQuantity}</p>
                                 </div>
                               </div>
@@ -376,7 +373,6 @@ function ContentList() {
                                 <img src={item.clothDto.clothImg} alt={item.clothDto.clothName} />
                                 <div>
                                   <h4>{item.clothDto.clothName}</h4>
-                                  <p>尺寸：{item.clothDto.clothSize}</p>
                                   <p>數量：{item.itemQuantity}</p>
                                   <p>狀態：
                                     <div className='item-check'>

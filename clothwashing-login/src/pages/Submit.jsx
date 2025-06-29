@@ -37,16 +37,16 @@ function Submit() {
 
       if (response.ok) {
         Swal.fire({
-          title: '註冊成功！',
-          text: '歡迎成為會員！',
+          title: '已寄送驗證信。',
+          text: '請確認驗證信再登入。',
           icon: 'success',
-          confirmButtonText: '前往登入畫面',
+          confirmButtonText: '回首頁',
         }).then(() => {
-          navigate('/login');
+          navigate('/'); 
         });
       } else {
         Swal.fire({
-          title: '註冊失敗',
+          title: '驗證信寄送失敗',
           text: '請確認資料是否輸入完成',
           icon: 'error',
           confirmButtonText: '確定',

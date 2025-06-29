@@ -104,7 +104,6 @@ function Cart(){
                 <th>名稱</th>
                 <th>描述</th>
                 <th>價格</th>
-                <th>尺寸</th>
                 <th>數量</th>
               </tr>
             </thead>
@@ -115,7 +114,6 @@ function Cart(){
                   <td>{cloth.clothName}</td>
                   <td>{cloth.clothDescription}</td>
                   <td>{cloth.clothPrice}</td>
-                  <td>{cloth.clothSize}</td>
                   <td>{cloth.clothQuantity}</td>
                 </tr>
               ))}
